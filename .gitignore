@@ -319,4 +319,5 @@ dmypy.json
 cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,python,intellij
-delete_me.txt
+delete_me.html
+.idea/*

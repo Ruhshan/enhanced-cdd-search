@@ -52,12 +52,7 @@ class Extractor:
                     record = True
                 if e.name == "font" and record:
                     txt = e.text.strip()
-                    if txt.isdigit() == False:
+                    if not txt.isdigit():
                         seq += e.text
         return seq
 
-
-if __name__ == "__main__":
-    data = open("/Users/ruhshan_admin/development/enhanced-cdd-search/delete_me.txt", "r").read()
-    res = Extractor.extract_dhandle(data)
-    print(res)
