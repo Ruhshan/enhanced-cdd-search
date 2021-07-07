@@ -1,0 +1,3 @@
+
+class DhandleNotFound(Exception):
+    pass

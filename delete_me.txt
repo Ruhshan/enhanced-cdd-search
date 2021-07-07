@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta name="ncbi_app" content="cdd" />
+	<meta name="ncbi_pdid" content="cdsearch_loading" />
+	<meta name="ncbi_phid" content="90C650E80E57B4610000000000000001" />
+
+
+
+	<title>Loading...</title>
+	<link rel="stylesheet" href="https://www.ncbi.nlm.nih.gov/ncbi.css">
+	<!--<link rel="stylesheet" href="/Structure/shlu/comm/slustyles.css">-->
+
+	<link rel="stylesheet" href="/Structure/shlu/resource/common.css">
+	<link rel="stylesheet" href="/Structure/shlu/resource/button/button_base.css">
+	<link rel="stylesheet" href="/Structure/shlu/resource/infobox/infobox_base.css">
+
+	<link rel="stylesheet" href="files/wrpsb.min.css">
+	<link rel="stylesheet" href="files/loading.min.css">
+
+	<script type="text/javascript" src="/Structure/shlu/jslibs/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" SRC="https://www.ncbi.nlm.nih.gov/coreweb/javascript/imagemouseover.js"></script>
+	<!-- standard js -->
+	<script type="text/javascript" SRC="/Structure/shlu/resource/slucore.js"></script> <!-- standard js -->
+	<script type="text/javascript" SRC="/Structure/shlu/resource/cgilinks.js"></script> <!-- standard js -->
+	<script type="text/javascript" SRC="/Structure/shlu/resource/button/button.js"></script> <!-- standard js -->
+	<script type="text/javascript" SRC="/Structure/shlu/resource/infobox/infobox.js"></script> <!-- standard js -->
+	<script type="text/javascript" src="files/wrpsb.min.js"></script>
+
+	<script language="Javascript">
+		var iTimeOut = 0;
+			var iDispTime = 0 / 1000;
+			//var iTimeOut = 10000;
+			var iTimeIncrement = 5000;	//additional milliseconds for next countdown
+			var strTickCmd = "tick";	//the tick parameter that recognized by action cgi. ie, tick=3000
+			//var strTickCmd = "tick";	//the tick parameter that recognized by action cgi. ie, tick=3000
+			var iIntId = 0;
+			function hTimeoutHandler()
+			{
+				$('#seconds').html(iDispTime);
+				if (iDispTime <= 0)
+				{
+					clearInterval(iIntId);
+					$('#counter').css('text-decoration', 'blink').html('Contacting server...');
+					refreshPage();
+				}
+				else --iDispTime;
+			}
+
+			function refreshPage()
+			{
+				var theForm = $('#_refresh');
+				if (iTimeOut > 0)
+				{
+					var oInput = $('<input type="hidden" name="' + strTickCmd + '" value="' + (iTimeOut + iTimeIncrement) + '"></input>');
+					theForm.append(oInput);
+				}
+				theForm.submit();
+			}
+
+			jDocument.ready(function()
+			{
+				hTimeoutHandler();
+				iIntId = setInterval(hTimeoutHandler, 1000);
+			});
+	</script>
+
+</head>
+
+<body>
+	<table style="width: 100%">
+		<tr>
+			<td style="width: 100%" align="center">
+
+				<table id="mainTbl">
+					<tr>
+						<td style="width: 100%">
+							<!-- Page-top logos -->
+							<table style="width: 100%">
+								<tr>
+									<td id="ncbilogo"><a
+											href="https://www.ncbi.nlm.nih.gov"><img src="files/ncbi_logo.gif" border="0" height=83 width="145" ALT="NCBI"></a>
+									</td>
+									<td id="banner"><img src="files/banner.gif" alt="NCBI Structure Group logo"></td>
+								</tr>
+							</table>
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<!-- Menu Bar -->
+							<table border="0" cellpadding="0" cellspacing="0" width=100% align="center">
+								<tr>
+									<td height=2>
+										<img src="files/top2_left.gif" width="601" height="2" alt="" border=0 ></td>
+									<td width="100%" background="files/top2_mid_bg.gif" height=2></td>
+								</tr>
+							</table>
+							<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+								<tr>
+									<!--<td><img src="/coreweb/template1/pix/top3_ulm_no_a.gif" width="145" height="16" alt="" border=0 usemap="#unlmenu" name="unl_menu_pix"></td>-->
+									<td id="NCBINavi">
+										<div>
+											<A HREF="https://www.ncbi.nlm.nih.gov/"><IMG src="/Structure/IMG/buttons/button_ncbi1_home.png" width="46" height="16" border="0" alt="NCBI Home Page"></A>
+												<A HREF="https://www.ncbi.nlm.nih.gov/ncbisearch/"><IMG src="/Structure/IMG/buttons/button_ncbi2_search.png" width="51" height="16" border="0" alt="NCBI Site Search page"></A>
+													<A HREF="https://www.ncbi.nlm.nih.gov/guide/all/"><IMG src="/Structure/IMG/buttons/button_ncbi3_guide.png" width="48" height="16" border="0" alt="NCBI Guide that lists and describes the NCBI resources"></A>
+										</div>
+									</td>
+									<td background="files/top3_mainmenu_mid_bg.gif">
+										<img src="files/top3_mainmenu_left.gif" width="3" height="16" alt="" border=0></td>
+									<td style="width: 100%">
+										<table id="mainmenu">
+											<!-- Standard Tool Bar -->
+											<tr>
+												<td><a
+														href="https://www.ncbi.nlm.nih.gov/Structure/cdd/wrpsb.cgi?">NewSearch</a>
+												</td>
+												<td width="1" align="right">
+													<img src="files/top3_mainmenu_vertical_line.gif" alt=""></td>
+												<td><a href="/Structure/index.shtml">Structure Home</a></td>
+												<td width="1" align="right">
+													<img src="files/top3_mainmenu_vertical_line.gif" alt=""></td>
+												<td><a href="/Structure/MMDB/mmdb.shtml">3D Macromolecular
+														Structures</a></td>
+												<td width="1" align="right">
+													<img src="files/top3_mainmenu_vertical_line.gif" alt=""></td>
+												<td><a href="/Structure/cdd/cdd.shtml">Conserved Domains</a></td>
+												<td width="1" align="right">
+													<img src="files/top3_mainmenu_vertical_line.gif" alt=""></td>
+												<td><a href="//pubchem.ncbi.nlm.nih.gov/">Pubchem</a></td>
+												<td width="1" align="right">
+													<img src="files/top3_mainmenu_vertical_line.gif" alt=""></td>
+												<td><a
+														href="/Structure/biosystems/docs/biosystems_about.html">BioSystems</a>
+												</td>
+
+											</tr>
+										</table>
+									</td>
+									<td><img src="files/top3_mainmenu_right.gif" width="5" height="16" alt=""></td>
+								</tr>
+							</table>
+							<table style="width: 100%">
+								<tr>
+									<td height="2" bgcolor="#336699"></td>
+									<td width="100%" bgcolor="#336699"></td>
+									<td bgcolor="#336699"></td>
+								</tr>
+							</table><!-- end of menubar display -->
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 100%">
+							<!-- main result -->
+							<div id="maindiv">
+								<div id="display"></div>
+								<div id="counter">Page is refreshing in <span id="seconds">8</span> seconds</div>
+
+							</div>
+							<form id=_refresh action=https://www.ncbi.nlm.nih.gov/Structure/cdd/wrpsb.cgi method=POST
+								target="_self">
+								<!-- the form to submit for refresh or redirection -->
+								<input name="dhandle" type="hidden" value="NC-data_cache-0-NCID_1_43755827_130.14.22.10_9149_1625652041_1247377481_0MetA0__S_NC_CDDCache"><input name="output" type="hidden" value="html"><input name="wait4blast" type="hidden" value="10"><input name="mode" type="hidden" value="rep"><input name="data" type="hidden" value="ftable"><input name="gwidth" type="hidden" value="-1"><input name="loading" type="hidden" value="true"><input name="logarch" type="hidden" value="true">
+							</form>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div id="lit_list">
+								<p>References:</p>
+								<ul>
+									<li><a href="https://www.ncbi.nlm.nih.gov/pubmed/27899674"
+											title="Pubmed entry"><img src="files/PubMeds.gif"></a>Marchler-Bauer A et
+											al. (2017),
+											<i>"CDD/SPARCLE: functional classification of proteins via subfamily domain architectures."</i>,
+											<b>Nucleic Acids Res.45</b>(D)200-3.</li>
+									<li><a href="https://www.ncbi.nlm.nih.gov/pubmed/25414356"
+											title="Pubmed entry"><img src="files/PubMeds.gif"></a>Marchler-Bauer A et
+											al. (2015), <i>"CDD: NCBI's conserved domain database."</i>,
+											<b>Nucleic Acids Res.43</b>(D)222-6.</li>
+									<li><a href="https://www.ncbi.nlm.nih.gov/pubmed/21109532"
+											title="Pubmed entry"><img src="files/PubMeds.gif"></a>Marchler-Bauer A et
+											al. (2011),
+											<i>"CDD: a Conserved Domain Database for the functional annotation of proteins."</i>,
+											<b>Nucleic Acids Res.39</b>(D)225-9.</li>
+									<li><a href="https://www.ncbi.nlm.nih.gov/pubmed/15215404"
+											title="Pubmed entry"><img src="files/PubMeds.gif"></a>Marchler-Bauer A,
+											Bryant SH (2004),
+											<i>"CD-Search: protein domain annotations on the fly."</i>,
+											<b>Nucleic Acids Res.32</b>(W)327-331.</li>
+								</ul>
+							</div>
+							<!-- foot notes -->
+							<table style="width: 100%; margin: 10px;">
+								<tr>
+									<td style="text-align: center; font-size: 10pt;">
+										<b><a href="cdd_help.shtml">Help</a></b> | <a
+											href="https://www.ncbi.nlm.nih.gov/About/disclaimer.html">Disclaimer</a> |
+										<a href="mailto:info@ncbi.nlm.nih.gov">Write to the Help Desk</a><BR><a
+											href="">NCBI</a> | <a href="https://www.nlm.nih.gov">NLM</a> | <a
+											href="https://www.nih.gov">NIH</a>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>
+
+</html>
