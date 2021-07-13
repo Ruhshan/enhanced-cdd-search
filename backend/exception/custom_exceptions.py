@@ -3,4 +3,5 @@ class DhandleNotFound(Exception):
     pass
 
 class CallToNCBIFailed(Exception):
-    pass
+    def __init__(self, message: str):
+        self.message = message

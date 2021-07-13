@@ -12,12 +12,12 @@ search_url = "https://www.ncbi.nlm.nih.gov/Structure/cdd/wrpsb.cgi"
 class CddScrapper:
     @staticmethod
     def initiate(search_request: CddSearchModel) -> str:
-        response = requests.request("POST", search_url, data=search_request.dict())
+        #response = requests.request("POST", search_url, data=search_request.dict())
 
-        if response.status_code != 200:
-            raise CallToNCBIFailed
+        #if response.status_code != 200:
+        raise CallToNCBIFailed("Failed")
 
-        return response.text
+        #return response.text
 
     @staticmethod
     def fetch_result(dhandle: str) -> str:

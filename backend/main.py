@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 from starlette.middleware.cors import CORSMiddleware
 from backend.core.config import settings
+from backend.exception.custom_exception_handler import inclue_custom_exception_handler
 from backend.routers import search_router
 
 app = FastAPI()
@@ -21,5 +22,7 @@ if settings.BACKEND_CORS_ORIGINS:
 
 
 app.include_router(search_router.router,prefix=settings.API_V1_STR+"/search")
+inclue_custom_exception_handler(app)
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8090)
