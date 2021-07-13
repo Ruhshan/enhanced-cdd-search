@@ -1,18 +1,17 @@
 import time
 
 from backend.exception.custom_exceptions import CallToNCBIFailed
-from backend.schema.search_request import SearchRequest
+from backend.schema.cdd_search_model import CddSearchModel
 
 import requests
 
-from backend.service.extractor import Extractor
 
 search_url = "https://www.ncbi.nlm.nih.gov/Structure/cdd/wrpsb.cgi"
 
 
 class CddSearch:
     @staticmethod
-    def initiate(search_request: SearchRequest) -> str:
+    def initiate(search_request: CddSearchModel) -> str:
         response = requests.request("POST", search_url, data=search_request.dict())
 
         if response.status_code != 200:

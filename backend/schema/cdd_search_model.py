@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class SearchRequest(BaseModel):
+class CddSearchModel(BaseModel):
     seqinput: str
     db: str
     evalue: float
