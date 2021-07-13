@@ -66,7 +66,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { DatabaseInterface } from '@/types/database';
-import { Query } from '@/types/query';
+import { SearchRequest } from '@/types/searchRequest';
 
 @Component({ components: {} })
 export default class App extends Vue {
@@ -75,7 +75,7 @@ export default class App extends Vue {
     { id: 1, name: 'NCBI_Curated  - 17937 PSSMs', value: 'cdd_ncbi' },
   ];
 
-  private query: Query = new Query();
+  private query: SearchRequest = new SearchRequest();
   private submit(): void {
       console.log(JSON.stringify(this.query));
   }

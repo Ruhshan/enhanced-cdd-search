@@ -7,7 +7,7 @@ from backend.exception.custom_exceptions import DhandleNotFound
 from backend.schema.cd_entry import CdEntry
 
 
-class Extractor:
+class CddParser:
     @classmethod
     def extract_dhandle(cls, html: str) -> str:
         soup = BeautifulSoup(html, 'html.parser')

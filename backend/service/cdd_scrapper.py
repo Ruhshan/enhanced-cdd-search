@@ -9,7 +9,7 @@ import requests
 search_url = "https://www.ncbi.nlm.nih.gov/Structure/cdd/wrpsb.cgi"
 
 
-class CddSearch:
+class CddScrapper:
     @staticmethod
     def initiate(search_request: CddSearchModel) -> str:
         response = requests.request("POST", search_url, data=search_request.dict())

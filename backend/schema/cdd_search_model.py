@@ -7,5 +7,7 @@ class CddSearchModel(BaseModel):
     evalue: float
     compbasedadj: str
     maxhits: int
+    lift: str
+    suppr: str
     frclive = 'T'
     mode='rep'
