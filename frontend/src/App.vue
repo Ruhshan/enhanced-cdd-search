@@ -1,26 +1,42 @@
 <template>
-  <div id="app">Hello World!</div>
+  <v-app>
+    <v-app-bar color="blue" app dark>
+      <v-toolbar-title>Enhanced CDD Search</v-toolbar-title>
+    </v-app-bar>
+
+    <v-main>
+      <v-container>
+        <v-row>
+          <v-col sm="8">
+            <v-card>
+              <v-card-title>Search for Conserved Domains</v-card-title>
+              <v-card-text>
+                <v-textarea
+                  outlined
+                  label="Enter protein or nucleotide query as accession, gi, or sequence in FASTA format"
+                ></v-textarea>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col sm="4">
+            <v-card>
+              <v-card-title>Options</v-card-title>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import Vue from "vue";
 
-#nav {
-  padding: 30px;
-}
+export default Vue.extend({
+  name: "App",
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+  data: () => ({
+    //
+  }),
+});
+</script>
