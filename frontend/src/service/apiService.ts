@@ -8,7 +8,6 @@ const ApiService = axios.create({
 })
 
 ApiService.interceptors.response.use(response => {
-    console.log('API url '+process.env.VUE_APP_API_URL)
     return response
 })
 
