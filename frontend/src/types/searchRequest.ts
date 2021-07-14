@@ -1,6 +1,6 @@
 export class SearchRequest {
     constructor(
-        public seqinput:string,
+        public seqinput = '',
         public selectedDatabase = 'cdd',
         public eValueThreshold = 0.1,
         public compositionBasedAdjustment = false,
