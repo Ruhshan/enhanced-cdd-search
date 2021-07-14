@@ -28,7 +28,7 @@ class CddScrapper:
         time.sleep(8)
         response = requests.request("POST", search_url, data=fetch_result_request)
         if response.status_code != 200:
-            raise CallToNCBIFailed
+            raise CallToNCBIFailed(str(response.status_code))
         return response.text
 
 

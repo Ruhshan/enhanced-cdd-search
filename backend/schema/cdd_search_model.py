@@ -10,4 +10,4 @@ class CddSearchModel(BaseModel):
     lift: str
     suppr: str
     frclive = 'T'
-    mode='rep'
+    mode='full'

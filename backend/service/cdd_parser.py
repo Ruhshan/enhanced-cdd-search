@@ -13,7 +13,7 @@ class CddParser:
         soup = BeautifulSoup(html, 'html.parser')
         dhandle_input = soup.find("input", {"name": "dhandle"})
         if dhandle_input == None:
-            raise DhandleNotFound
+            raise DhandleNotFound("")
         else:
             return dhandle_input['value']
 
@@ -33,7 +33,18 @@ class CddParser:
                     last_entry.sequence = cls.__construct_sequence(tr)
                     entries.append(last_entry)
                     last_entry = CdEntry.new()
-        return entries
+
+        unique_accession_and_interval = {}
+        unique_entries = []
+
+        for entry in entries:
+            identifier = "{}-{}".format(entry.accession, entry.interval)
+
+            if unique_accession_and_interval.get(identifier) is None:
+                unique_entries.append(entry)
+                unique_accession_and_interval[identifier] = True
+
+        return unique_entries
 
     @staticmethod
     def __construct_entries(entry: bs4.element.Tag) -> CdEntry:
