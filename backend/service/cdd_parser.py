@@ -31,6 +31,7 @@ class CddParser:
                     last_entry = cls.__construct_entries(tr)
                 if "detail" in class_names:
                     last_entry.sequence = cls.__construct_sequence(tr)
+                    last_entry.description = cls.__extract_description(tr)
                     entries.append(last_entry)
                     last_entry = CdEntry.new()
 
@@ -49,8 +50,13 @@ class CddParser:
     @staticmethod
     def __construct_entries(entry: bs4.element.Tag) -> CdEntry:
         return CdEntry(accession=entry.find_all("td")[2].find("a").text,
-                       description=entry.find_all("td")[3].find("div").text,
+                       description= "",
                        interval=entry.find_all("td")[4].text, evalue=entry.find_all("td")[5].text, sequence="")
+
+    @staticmethod
+    def __extract_description(detail: bs4.element.Tag) ->str:
+        description = detail.find_all("p")[0].text
+        return description
 
     @staticmethod
     def __construct_sequence(detail: bs4.element.Tag) -> str:

@@ -69,7 +69,9 @@
                                 >Retrieved {{ count }} CDs</v-toolbar-title
                             >
                             <v-spacer></v-spacer>
-                            <v-btn depressed color="info" @click="download">Download</v-btn>
+                            <v-btn depressed color="info" @click="download"
+                                >Download</v-btn
+                            >
                         </v-toolbar>
                     </template>
                 </v-data-table>
@@ -102,9 +104,16 @@ export default class Home extends Vue {
     private cdEntries: Array<CdEntry> = []
     private count = 0
     async submit(): Promise<void> {
-        const { count, data } = await SearchService.search(this.query)
-        this.count = count
-        this.cdEntries = data
+        this.loading = true
+        try {
+            const { count, data } = await SearchService.search(this.query)
+            this.count = count
+            this.cdEntries = data
+        } catch (e) {
+            console.log(JSON.stringify(e))
+        }
+
+        this.loading = false
     }
     download(): void {
         fileDownload(JSON.stringify(this.cdEntries), 'download.json')
