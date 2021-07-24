@@ -18,20 +18,24 @@ def handle_dhandle_not_found_exception(request: Request, exc: DhandleNotFound) -
         content={"message": "Unable to parse data handle from ncbi response " + exc.message},
     )
 
+
 def handle_job_is_still_running_exception(request: Request, exc: JobIsStillRunning) -> JSONResponse:
     return JSONResponse(
         status_code=202,
-        content={"message":"Job is still running for search id: {}".format(exc.message)}
+        content={"message": "Job is still running for search id: {}".format(exc.message)}
     )
 
+
 def handle_invalid_batch_search_id(request: Request, exc: InvalidBatchSearchId) -> JSONResponse:
-    return JSONResponse(status_code=420, content={"message":"Invalid batch search id" + exc.message})
+    return JSONResponse(status_code=420, content={"message": "Invalid batch search id" + exc.message})
+
 
 def handle_batch_search_id_not_fount(request: Request, exc: BatchSearchIdNotFound) -> JSONResponse:
     return JSONResponse(status_code=420,
-                        content={"message":"Search Id not parseable"})
+                        content={"message": "Search Id not parseable"})
 
-def inclue_custom_exception_handler(app: FastAPI):
+
+def include_custom_exception_handler(app: FastAPI):
     app.add_exception_handler(CallToNCBIFailed, handle_call_to_NCBIFailed_exception)
     app.add_exception_handler(DhandleNotFound, handle_dhandle_not_found_exception)
     app.add_exception_handler(InvalidBatchSearchId, handle_invalid_batch_search_id)

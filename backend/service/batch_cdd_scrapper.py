@@ -2,7 +2,7 @@ import re
 
 from backend.exception.custom_exceptions import InvalidBatchSearchId, JobIsStillRunning, \
     BatchSearchIdNotFound
-from backend.schema.batch_search_request import BatchSearchRequest, BatchSearchResponse
+from backend.schema.batch_search_schemas import BatchSearchRequest, BatchSearchResponse
 from backend.service.async_http_client import AIOClient
 
 
@@ -10,7 +10,7 @@ class BatchCddScrapper:
     base_url = "https://www.ncbi.nlm.nih.gov/Structure/bwrpsb/bwrpsb.cgi"
 
     @classmethod
-    async def launch_search_async(cls, batch_search_request: BatchSearchRequest):
+    async def launch_search(cls, batch_search_request: BatchSearchRequest):
         response = await AIOClient.post(cls.base_url, batch_search_request.dict())
         search_id = re.search("QM3-qcdsearch-\w+", response)
         if search_id:
