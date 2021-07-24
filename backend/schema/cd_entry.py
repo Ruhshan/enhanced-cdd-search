@@ -10,4 +10,8 @@ class CdEntry(BaseModel):
 
     @staticmethod
     def new():
-        return CdEntry(accession="",description="",interval="",evalue="",sequence="")
+        return CdEntry(accession="", description="", interval="", evalue="", sequence="")
+
+
+class BatchCdEntry(CdEntry):
+    query: str
