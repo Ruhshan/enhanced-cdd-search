@@ -27,13 +27,15 @@ class AlignmentParser:
     def __parse_hit(cls, hit, query) -> BatchCdEntry:
         accession = re.search(">cdd:\d+.*", hit).group(0).split(",")[2].strip()
         e_value = re.search("Expect\s=\s.*,", hit).group(0).split(" = ")[-1].replace(",", "")
-        queries = re.findall("Query\s\d+\s[A-Z-]*\s\d+", hit)
-        match_start = re.split("\s", queries[0])[1]
-        match_end = re.split("\s", queries[len(queries) - 1])[-1]
-        hit_sequences = re.findall("Sbjct\s\d+\s[A-Z-]*\s\d+", hit)
+        queries = re.findall("Query\s+\d+\s.*\s+\d+", hit)
+
+        match_start = re.split("\s+", queries[0])[1]
+        match_end = re.split("\s+", queries[len(queries) - 1])[-1]
+        hit_sequences = re.findall("Sbjct\s+\d+\s+.*\s+\d+", hit)
         cd_sequence = ""
+
         for sequence in hit_sequences:
-            cd_sequence += re.split("\s", sequence)[2]
+            cd_sequence += re.split("\s+", sequence)[2]
         cd_sequence = cd_sequence.replace("-", "")
         entry = BatchCdEntry(accession=accession, description="", interval="{}-{}".format(match_start, match_end),
                              evalue=e_value, sequence=cd_sequence, query=query)
