@@ -1,6 +1,6 @@
 from typing import List
 
-from backend.schema.batch_search_schemas import BatchSearchRequest, BatchSearchResponse
+from backend.schema.batch_search_schemas import BatchSearchModel, BatchSearchResponse, BatchSearchRequest
 from backend.schema.cd_entry import BatchCdEntry
 from backend.service.aligmnemt_parser import AlignmentParser
 from backend.service.batch_cdd_scrapper import BatchCddScrapper
@@ -15,5 +15,15 @@ class BatchSearchHandler:
 
     @classmethod
     async def launch_search(cls, batch_search_request: BatchSearchRequest) -> BatchSearchResponse:
-        return await BatchCddScrapper.launch_search(batch_search_request)
+        batch_search_model = BatchSearchModel(
+            queries=batch_search_request.queries,
+            db=batch_search_request.selectedDatabase,
+            evalue=str(batch_search_request.eValueThreshold),
+            compbasedadj="T" if batch_search_request.compositionCorrectedScoring else "",
+            maxhit=batch_search_request.maxHit,
+            filter="T" if batch_search_request.applyLowComplexityFilter else "",
+            useid1="T" if batch_search_request.includeRetiredSequences else ""
+
+        )
+        return await BatchCddScrapper.launch_search(batch_search_model)
 
