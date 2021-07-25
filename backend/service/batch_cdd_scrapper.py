@@ -10,7 +10,7 @@ class BatchCddScrapper:
     base_url = "https://www.ncbi.nlm.nih.gov/Structure/bwrpsb/bwrpsb.cgi"
 
     @classmethod
-    async def launch_search(cls, batch_search_request: BatchSearchRequest):
+    async def launch_search(cls, batch_search_request: BatchSearchRequest) -> BatchSearchResponse:
         response = await AIOClient.post(cls.base_url, batch_search_request.dict())
         search_id = re.search("QM3-qcdsearch-\w+", response)
         if search_id:
