@@ -9,6 +9,9 @@ const ApiService = axios.create({
 
 ApiService.interceptors.response.use(response => {
     return response
-})
+},
+    async error =>{
+    return Promise.reject(error.response.data)
+    })
 
 export default ApiService

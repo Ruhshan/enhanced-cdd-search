@@ -1,5 +1,6 @@
 from typing import List
 
+from backend.exception.custom_exceptions import CallToNCBIFailed
 from backend.schema.batch_search_schemas import BatchSearchModel, BatchSearchResponse, BatchSearchRequest
 from backend.schema.cd_entry import BatchCdEntry
 from backend.service.aligmnemt_parser import AlignmentParser
