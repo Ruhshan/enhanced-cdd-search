@@ -1,34 +1,26 @@
-import time
 
-from backend.exception.custom_exceptions import CallToNCBIFailed
+import asyncio
+
 from backend.schema.cdd_search_model import CddSearchModel
-
-import requests
-
+from backend.service.async_http_client import AIOClient
 
 search_url = "https://www.ncbi.nlm.nih.gov/Structure/cdd/wrpsb.cgi"
 
 
 class CddScrapper:
     @staticmethod
-    def initiate(search_request: CddSearchModel) -> str:
-        response = requests.request("POST", search_url, data=search_request.dict())
-
-        if response.status_code != 200:
-            raise CallToNCBIFailed(str(response.status_code))
-
-        return response.text
+    async def initiate(search_request: CddSearchModel) -> str:
+        return await AIOClient.post(search_url, search_request.dict())
 
     @staticmethod
-    def fetch_result(dhandle: str) -> str:
+    async def fetch_result(dhandle: str) -> str:
         fetch_result_request = {
             "dhandle": dhandle, "output": "html", "wait4blast10": "10", "mode": "rep", "data": "ftable", "gwidth": "-1",
             "loading": "true", "logarch": "true"
         }
-        time.sleep(8)
-        response = requests.request("POST", search_url, data=fetch_result_request)
-        if response.status_code != 200:
-            raise CallToNCBIFailed(str(response.status_code))
-        return response.text
+
+        await asyncio.sleep(5)
+
+        return await AIOClient.post(search_url, fetch_result_request)
 
 
