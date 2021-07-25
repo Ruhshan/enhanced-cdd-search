@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter
 
-from backend.schema.batch_search_schemas import BatchSearchResponse, BatchSearchRequest
+from backend.schema.batch_search_schemas import BatchSearchResponse, BatchSearchModel, BatchSearchRequest
 from backend.schema.cd_entry import BatchCdEntry
 from backend.schema.search_request import SearchRequest
 from backend.schema.search_response import SearchResponse
