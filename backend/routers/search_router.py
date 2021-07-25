@@ -14,7 +14,7 @@ router = APIRouter()
 
 @router.post("/new", response_model=SearchResponse)
 async def search(search_request: SearchRequest):
-    return SearchHandler.new_search(search_request)
+    return await SearchHandler.new_search(search_request)
 
 
 @router.post("/batch", response_model=BatchSearchResponse)

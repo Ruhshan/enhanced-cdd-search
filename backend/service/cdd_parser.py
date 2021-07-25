@@ -9,7 +9,7 @@ from backend.schema.cd_entry import CdEntry
 
 class CddParser:
     @classmethod
-    def extract_dhandle(cls, html: str) -> str:
+    async def extract_dhandle(cls, html: str) -> str:
         soup = BeautifulSoup(html, 'html.parser')
         dhandle_input = soup.find("input", {"name": "dhandle"})
         if dhandle_input == None:
@@ -18,7 +18,7 @@ class CddParser:
             return dhandle_input['value']
 
     @classmethod
-    def extract_cdd_entries(cls, html: str) -> List[CdEntry]:
+    async def extract_cdd_entries(cls, html: str) -> List[CdEntry]:
         soup = BeautifulSoup(html, 'html.parser')
         disp_tables = soup.find_all("table", {"class": "disptbl backstage"})
         entries = []
@@ -30,13 +30,13 @@ class CddParser:
 
                 if "entry" in class_names:
                     try:
-                        last_entry = cls.__construct_entries(tr)
+                        last_entry = await cls.__construct_entries(tr)
                     except:
                         continue
                 if "detail" in class_names:
                     try:
-                        last_entry.sequence = cls.__construct_sequence(tr)
-                        last_entry.description = cls.__extract_description(tr)
+                        last_entry.sequence = await cls.__construct_sequence(tr)
+                        last_entry.description = await cls.__extract_description(tr)
                     except:
                         continue
                     entries.append(last_entry)
@@ -55,19 +55,19 @@ class CddParser:
         return unique_entries
 
     @staticmethod
-    def __construct_entries(entry: bs4.element.Tag) -> CdEntry:
+    async def __construct_entries(entry: bs4.element.Tag) -> CdEntry:
         return CdEntry(accession=entry.find_all("td")[2].find("a").text,
                        description= "",
                        interval=entry.find_all("td")[4].text,
                        evalue=entry.find_all("td")[5].text, sequence="")
 
     @staticmethod
-    def __extract_description(detail: bs4.element.Tag) ->str:
+    async def __extract_description(detail: bs4.element.Tag) ->str:
         description = detail.find_all("p")[0].text
         return description
 
     @staticmethod
-    def __construct_sequence(detail: bs4.element.Tag) -> str:
+    async def __construct_sequence(detail: bs4.element.Tag) -> str:
         pres = detail.find_all("pre")
         seq = ""
         for pre in pres:

@@ -10,7 +10,7 @@ from backend.service.cdd_scrapper import CddScrapper
 
 class SearchHandler:
     @staticmethod
-    def new_search(search_request: SearchRequest) -> SearchResponse:
+    async def new_search(search_request: SearchRequest) -> SearchResponse:
         search_model = CddSearchModel(
             seqinput=search_request.seqinput,
             db=search_request.selectedDatabase,
@@ -21,8 +21,8 @@ class SearchHandler:
             suppr="T" if search_request.suppressWeakOverLappingHits else ""
         )
 
-        initial_response = CddScrapper.initiate(search_model)
-        dhandle = CddParser.extract_dhandle(initial_response)
-        fetched_result = CddScrapper.fetch_result(dhandle)
-        data = CddParser.extract_cdd_entries(fetched_result)
+        initial_response = await CddScrapper.initiate(search_model)
+        dhandle = await CddParser.extract_dhandle(initial_response)
+        fetched_result = await CddScrapper.fetch_result(dhandle)
+        data = await CddParser.extract_cdd_entries(fetched_result)
         return SearchResponse(count=len(data), data=data)
