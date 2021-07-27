@@ -2,8 +2,11 @@
     <v-app>
         <v-app-bar color="blue" app dark>
             <v-toolbar-title>Enhanced CDD Search</v-toolbar-title>
-            <router-link class="nav-button" to="/batch-search">
-                <v-btn color="white" text> Batch </v-btn>
+          <router-link class="nav-button" to="/">
+                <v-btn color="white" text>Solo</v-btn>
+          </router-link>
+          <router-link class="nav-button" to="/batch-search">
+                <v-btn color="white" text>Batch</v-btn>
             </router-link>
         </v-app-bar>
 

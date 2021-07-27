@@ -1,5 +1,34 @@
 <template>
     <v-container>
+        <v-dialog v-model="dialog" width="500">
+            <v-card>
+                <v-toolbar color="primary" dark
+                    ><v-toolbar-title>
+                        Searching in progress...
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="dialog = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+
+                <v-card-text>
+                    <p style="margin-top: 5px">
+                        Batch search might take longer time to complete, you may
+                        <strong>SAVE</strong> the search ID showing bellow and
+                        come back after a while when its complete
+                    </p>
+
+                    <v-text-field
+                        v-model="searchID"
+                        readonly
+                        solo
+                    ></v-text-field>
+                </v-card-text>
+
+                <v-divider></v-divider>
+            </v-card>
+        </v-dialog>
         <v-row>
             <v-col sm="8">
                 <v-card style="height: 100%" :loading="loading">
@@ -18,6 +47,25 @@
                             @click="submit"
                             >Submit</v-btn
                         >
+                        <v-row style="margin-top: 5px">
+                            <v-col sm="12">
+                                <v-text-field
+                                    v-model="searchID"
+                                    label="Previous Search ID"
+                                    outlined
+                                >
+                                    <template v-slot:append-outer>
+                                        <v-btn
+                                            depressed
+                                            color="info"
+                                            :loading="loading"
+                                            @click="fetchSearchResult"
+                                            >Fetch</v-btn
+                                        >
+                                    </template>
+                                </v-text-field>
+                            </v-col>
+                        </v-row>
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -69,7 +117,9 @@ import { BatchSearchRequest } from '@/types/searchRequest'
 import SearchService from '@/service/searchService'
 @Component({})
 export default class BatchSearch extends Vue {
+    private dialog = false
     private loading = false
+    private searchID = ''
     private databases: Array<DatabaseInterface> = [
         { id: 0, name: 'CDD -- 58235 PSSMs', value: 'cdd' },
         { id: 1, name: 'NCBI_Curated -- 17937 PSSMs', value: 'cdd_ncbi' },
@@ -80,12 +130,29 @@ export default class BatchSearch extends Vue {
 
         try {
             const res = await SearchService.batchSearch(this.query)
-          console.log(JSON.stringify(res))
+            this.searchID = res.search_id
+            await this.fetchSearchResult()
         } catch (e) {
             console.log(JSON.stringify(e))
         }
 
         this.loading = false
+    }
+
+    private async fetchSearchResult(): Promise<void> {
+        if (this.searchID) {
+            this.loading = true
+            this.dialog = true
+
+            try {
+                const res = await SearchService.batchSearchResult(this.searchID)
+                console.log(JSON.stringify(res))
+            } catch (e) {
+                console.log(JSON.stringify(e))
+            }
+            this.loading = false
+            this.dialog = false
+        }
     }
 }
 </script>
