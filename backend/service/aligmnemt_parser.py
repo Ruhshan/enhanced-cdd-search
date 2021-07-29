@@ -31,6 +31,8 @@ class AlignmentParser:
 
     @classmethod
     async def __parse_hit(cls, hit, query) -> BatchCdEntry:
+        desc = re.findall(">cdd:\d+.*Length=\d+", hit, flags=re.DOTALL)[0]
+        desc = ' '.join(re.split('\s', desc)[3:])
         accession = re.search(">cdd:\d+.*", hit).group(0).split(",")[2].strip()
         e_value = re.search("Expect\s=\s.*,", hit).group(0).split(" = ")[-1].replace(",", "")
         queries = re.findall("Query\s+\d+\s.*\s+\d+", hit)
@@ -43,7 +45,7 @@ class AlignmentParser:
         for sequence in hit_sequences:
             cd_sequence += re.split("\s+", sequence)[2]
         cd_sequence = cd_sequence.replace("-", "")
-        entry = BatchCdEntry(accession=accession, description="", interval="{}-{}".format(match_start, match_end),
+        entry = BatchCdEntry(accession=accession, description=desc[1:], interval="{}-{}".format(match_start, match_end),
                              evalue=e_value, sequence=cd_sequence, query=query)
 
         return entry
