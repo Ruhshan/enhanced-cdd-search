@@ -107,7 +107,9 @@
                 </v-card>
             </v-col>
         </v-row>
-        <result-table></result-table>
+
+        <result-table :results="searchResult"></result-table>
+
     </v-container>
 </template>
 
@@ -117,6 +119,7 @@ import { DatabaseInterface } from '@/types/database'
 import { BatchSearchRequest } from '@/types/searchRequest'
 import SearchService from '@/service/searchService'
 import ResultTable from '@/components/ResultTable.vue'
+import {BatchCdEntry} from '@/types/cdEntry';
 
 @Component({
     components: { ResultTable },
@@ -125,6 +128,7 @@ export default class BatchSearch extends Vue {
     private dialog = false
     private loading = false
     private searchID = ''
+    private searchResult: Array<BatchCdEntry> = []
     private databases: Array<DatabaseInterface> = [
         { id: 0, name: 'CDD -- 58235 PSSMs', value: 'cdd' },
         { id: 1, name: 'NCBI_Curated -- 17937 PSSMs', value: 'cdd_ncbi' },
@@ -149,18 +153,19 @@ export default class BatchSearch extends Vue {
             this.loading = true
             this.dialog = true
 
-            // for (let i = 0; i < 5; i++) {
-            //     console.log(i)
-            //
-            // }
-
-            try {
-                const res = await SearchService.batchSearchResult(this.searchID)
-                console.log('in result')
-                console.log(JSON.stringify(res))
-            } catch (e) {
-                console.log('From error')
-                console.log(JSON.stringify(e))
+            for (let i = 0; i < 5; i++) {
+                console.log(i)
+                try {
+                    const res = await SearchService.batchSearchResult(
+                        this.searchID
+                    )
+                    this.searchResult = res
+                    break
+                } catch (e) {
+                    console.log('From error')
+                    console.log(JSON.stringify(e))
+                }
+                await this.wait(1000)
             }
 
             this.loading = false

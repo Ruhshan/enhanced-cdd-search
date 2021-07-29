@@ -11,7 +11,7 @@ class BatchSearchHandler:
     @classmethod
     async def get_search_result(cls, search_id: str) -> List[BatchCdEntry]:
         cds_id, cookie = await BatchCddScrapper.get_cdsid_from_search_id(search_id)
-        await asyncio.sleep(3000)
+        await asyncio.sleep(5)
         alignment = await BatchCddScrapper.get_alignment_from_cds_id(cds_id, cookie)
         return await AlignmentParser.parse(alignment)
 
