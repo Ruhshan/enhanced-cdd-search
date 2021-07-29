@@ -19,7 +19,8 @@ class BatchCddScrapper:
 
     @classmethod
     async def get_cdsid_from_search_id(cls, search_id) -> str:
-        response = await AIOClient.get(f'{cls.base_url}?cdsid={search_id}&tdata=aligns&alnfmt=text&dmode=all')
+        response, cookie = await AIOClient.get(f'{cls.base_url}?cdsid={search_id}&tdata=aligns&alnfmt=text&dmode=all',True)
+        ncbi_sid = cls.extract_ncbi_sid(cookie)
         try:
             match_search_status = re.search("#status\s\d+", response)
 
@@ -29,14 +30,14 @@ class BatchCddScrapper:
                 raise InvalidBatchSearchId(search_id)
 
             match_cdsid = re.search("#cdsid\s.*", response)
-            return re.split("\s", match_cdsid.group(0))[-1]
+            return re.split("\s", match_cdsid.group(0))[-1], ncbi_sid
         except Exception:
             raise InvalidBatchSearchId(search_id)
 
     @classmethod
-    async def get_alignment_from_cds_id(cls, cds_id) -> str:
-
-        response = await AIOClient.get(f'{cls.base_url}?cdsid={cds_id}&tdata=aligns&alnfmt=text&dmode=all')
+    async def get_alignment_from_cds_id(cls, cds_id, cookie) -> str:
+        cookies = {"ncbi_sid":cookie}
+        response = await AIOClient.get(f'{cls.base_url}?cdsid={cds_id}&tdata=aligns&alnfmt=text&dmode=all',False, cookies)
 
         job_is_running = re.search("msg\s+Job\s+is\s+still\s+running", response)
 
@@ -49,3 +50,12 @@ class BatchCddScrapper:
             raise InvalidBatchSearchId(cds_id)
 
         return response
+
+    @classmethod
+    def extract_ncbi_sid(cls, cookie):
+        ncbi_sid = cookie.get('ncbi_sid')
+        if ncbi_sid:
+            return ncbi_sid.value
+        return ""
+
+

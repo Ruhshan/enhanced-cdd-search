@@ -107,6 +107,7 @@
                 </v-card>
             </v-col>
         </v-row>
+        <result-table></result-table>
     </v-container>
 </template>
 
@@ -115,7 +116,11 @@ import { Vue, Component } from 'vue-property-decorator'
 import { DatabaseInterface } from '@/types/database'
 import { BatchSearchRequest } from '@/types/searchRequest'
 import SearchService from '@/service/searchService'
-@Component({})
+import ResultTable from '@/components/ResultTable.vue'
+
+@Component({
+    components: { ResultTable },
+})
 export default class BatchSearch extends Vue {
     private dialog = false
     private loading = false
@@ -144,15 +149,29 @@ export default class BatchSearch extends Vue {
             this.loading = true
             this.dialog = true
 
+            // for (let i = 0; i < 5; i++) {
+            //     console.log(i)
+            //
+            // }
+
             try {
                 const res = await SearchService.batchSearchResult(this.searchID)
+                console.log('in result')
                 console.log(JSON.stringify(res))
             } catch (e) {
+                console.log('From error')
                 console.log(JSON.stringify(e))
             }
+
             this.loading = false
             this.dialog = false
         }
+    }
+
+    private async wait(ms: number): Promise<() => void> {
+        return new Promise(resolve => {
+            setTimeout(resolve, ms)
+        })
     }
 }
 </script>
