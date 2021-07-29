@@ -22,15 +22,15 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import { BatchCdEntry } from '@/types/cdEntry'
-import SearchService from '@/service/searchService'
+
 import fileDownload from 'js-file-download'
 
 @Component({})
 export default class ResultTable extends Vue {
-    private results: Array<BatchCdEntry> = []
-    private count = 0
+    @Prop() results!: Array<BatchCdEntry>
+    private tableRows: Array<BatchCdEntry> = []
     private headers: Array<Record<string, unknown>> = [
         { text: 'Query', value: 'query' },
         { text: 'Accession', value: 'accession' },
@@ -38,9 +38,9 @@ export default class ResultTable extends Vue {
         { text: 'Interval', value: 'interval' },
         { text: 'EValue', value: 'evalue' },
     ]
-    private async mounted(): Promise<void> {
-        this.results = await SearchService.dummy()
-        this.count = this.results.length
+
+    get count(): number {
+        return this.results.length
     }
 
     private async downloadFasta(): Promise<void> {
