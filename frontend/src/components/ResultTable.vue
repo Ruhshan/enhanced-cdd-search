@@ -34,9 +34,9 @@ export default class ResultTable extends Vue {
     private headers: Array<Record<string, unknown>> = [
         { text: 'Query', value: 'query' },
         { text: 'Accession', value: 'accession' },
-        { text: 'Description', value: 'description' },
         { text: 'Interval', value: 'interval' },
         { text: 'EValue', value: 'evalue' },
+        { text: 'Description', value: 'description' },
     ]
 
     get count(): number {
