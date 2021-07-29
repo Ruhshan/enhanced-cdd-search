@@ -45,7 +45,7 @@ class AlignmentParser:
         for sequence in hit_sequences:
             cd_sequence += re.split("\s+", sequence)[2]
         cd_sequence = cd_sequence.replace("-", "")
-        entry = BatchCdEntry(accession=accession, description=desc[1:], interval="{}-{}".format(match_start, match_end),
+        entry = BatchCdEntry(accession=accession, description=desc, interval="{}-{}".format(match_start, match_end),
                              evalue=e_value, sequence=cd_sequence, query=query)
 
         return entry

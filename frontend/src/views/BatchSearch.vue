@@ -109,7 +109,6 @@
         </v-row>
 
         <result-table :results="searchResult"></result-table>
-
     </v-container>
 </template>
 
@@ -119,7 +118,7 @@ import { DatabaseInterface } from '@/types/database'
 import { BatchSearchRequest } from '@/types/searchRequest'
 import SearchService from '@/service/searchService'
 import ResultTable from '@/components/ResultTable.vue'
-import {BatchCdEntry} from '@/types/cdEntry';
+import { BatchCdEntry } from '@/types/cdEntry'
 
 @Component({
     components: { ResultTable },
@@ -132,10 +131,18 @@ export default class BatchSearch extends Vue {
     private databases: Array<DatabaseInterface> = [
         { id: 0, name: 'CDD -- 58235 PSSMs', value: 'cdd' },
         { id: 1, name: 'NCBI_Curated -- 17937 PSSMs', value: 'cdd_ncbi' },
+        { id: 2, name: 'Pfam -- 18271 PSSMs', value: 'oasis_pfam' },
+        { id: 3, name: 'SMART -- 1011 PSSMs', value: 'oasis_smart' },
+        { id: 4, name: 'KOG -- 4825 PSSMs', value: 'oasis_kog' },
+        { id: 5, name: 'COG -- 4871 PSSMs', value: 'oasis_cog' },
+        { id: 6, name: 'PRK -- 11657 PSSMs', value: 'oasis_prk' },
+        { id: 7, name: 'TIGR -- 4488 PSSMs', value: 'oasis_tigr' },
     ]
     private query: BatchSearchRequest = new BatchSearchRequest()
     private async submit(): Promise<void> {
         this.loading = true
+        this.searchResult = []
+        this.searchID = ''
 
         try {
             const res = await SearchService.batchSearch(this.query)
