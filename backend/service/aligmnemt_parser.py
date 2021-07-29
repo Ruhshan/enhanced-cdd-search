@@ -1,3 +1,4 @@
+import asyncio
 import re
 from typing import List
 
@@ -19,7 +20,12 @@ class AlignmentParser:
         hit_indices = await cls.__find_segment_indices(result, ">cdd:\d+.*")
         hits = []
         for (start, end) in hit_indices:
-            hits.append(await cls.__parse_hit(result[start:end], query))
+            try:
+                if start < end:
+                    hits.append(await cls.__parse_hit(result[start:end], query))
+            except Exception as e:
+                print("unable to parse hit {}".format(result[start:end]))
+
 
         return hits
 
@@ -45,6 +51,7 @@ class AlignmentParser:
     @classmethod
     async def __find_segment_indices(cls, alignment, pattern) -> List:
         segment_start_flags = re.findall(pattern, alignment)
+
         previous_index = None
         segment_indices = []
         for flag in segment_start_flags:

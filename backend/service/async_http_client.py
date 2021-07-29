@@ -22,8 +22,17 @@ class AIOClient:
             return await response.text()
 
     @classmethod
-    async def get(cls, url):
-        async with cls.session.get(url) as response:
-            if response.status != 200:
-                raise CallToNCBIFailed(str(response.status))
-            return await response.text()
+    async def get(cls, url, with_cookie = False, cookies=None):
+        if cookies is None:
+            cookies = {}
+        try:
+            async with cls.session.get(url, cookies=cookies) as response:
+                if response.status != 200:
+                    raise CallToNCBIFailed(str(response.status))
+                if with_cookie:
+                    response_text = await response.text()
+                    return response_text, response.cookies
+                else:
+                    return await response.text()
+        except Exception as e:
+            raise  CallToNCBIFailed(str(500))

@@ -1,6 +1,6 @@
 from typing import List
 
-from backend.exception.custom_exceptions import CallToNCBIFailed
+import asyncio
 from backend.schema.batch_search_schemas import BatchSearchModel, BatchSearchResponse, BatchSearchRequest
 from backend.schema.cd_entry import BatchCdEntry
 from backend.service.aligmnemt_parser import AlignmentParser
@@ -10,8 +10,9 @@ from backend.service.batch_cdd_scrapper import BatchCddScrapper
 class BatchSearchHandler:
     @classmethod
     async def get_search_result(cls, search_id: str) -> List[BatchCdEntry]:
-        cds_id = await BatchCddScrapper.get_cdsid_from_search_id(search_id)
-        alignment = await BatchCddScrapper.get_alignment_from_cds_id(cds_id)
+        cds_id, cookie = await BatchCddScrapper.get_cdsid_from_search_id(search_id)
+        await asyncio.sleep(3000)
+        alignment = await BatchCddScrapper.get_alignment_from_cds_id(cds_id, cookie)
         return await AlignmentParser.parse(alignment)
 
     @classmethod

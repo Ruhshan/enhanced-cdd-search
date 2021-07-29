@@ -21,7 +21,7 @@ def handle_dhandle_not_found_exception(request: Request, exc: DhandleNotFound) -
 
 def handle_job_is_still_running_exception(request: Request, exc: JobIsStillRunning) -> JSONResponse:
     return JSONResponse(
-        status_code=202,
+        status_code=404,
         content={"message": "Job is still running for search id: {}".format(exc.message)}
     )
 
