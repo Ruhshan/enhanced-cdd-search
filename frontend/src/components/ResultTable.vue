@@ -61,6 +61,8 @@ export default class ResultTable extends Vue {
         { name: 'CD', value: 'cd' },
         { name: 'SMART', value: 'smart' },
         { name: 'PFAM', value: 'pfam' },
+        { name: 'TIG', value: 'tig' },
+        { name: 'PLN', value: 'pln' },
     ]
     private selectedDbPrefix = ''
     private filteredCds = 0
@@ -72,7 +74,7 @@ export default class ResultTable extends Vue {
     get filteredResults(): Array<BatchCdEntry> {
         if (this.selectedDbPrefix) {
             var filteredResults = this.results.filter(
-                r => r.accession.indexOf(this.selectedDbPrefix) == 0
+                r => r.accession.toLowerCase().indexOf(this.selectedDbPrefix) == 0
             )
             this.filteredCds = filteredResults.length
             return filteredResults
@@ -85,7 +87,7 @@ export default class ResultTable extends Vue {
     private async downloadFasta(): Promise<void> {
         var fasta = ''
 
-        this.results.forEach(entry => {
+        this.filteredResults.forEach(entry => {
             const secquenceHeader = `>${entry.query}_${entry.accession}_${entry.interval}`
             fasta += `${secquenceHeader}\n${entry.sequence}}\n\n`
         })
