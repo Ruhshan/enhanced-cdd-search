@@ -24,7 +24,8 @@ class BatchSearchHandler:
             compbasedadj="T" if batch_search_request.compositionCorrectedScoring else "",
             maxhit=batch_search_request.maxHit,
             filter="T" if batch_search_request.applyLowComplexityFilter else "",
-            useid1="T" if batch_search_request.includeRetiredSequences else ""
+            useid1="T" if batch_search_request.includeRetiredSequences else "",
+            smode = "auto" if batch_search_request.selectedDatabase =="cdd" else "live"
 
         )
         return await BatchCddScrapper.launch_search(batch_search_model)
