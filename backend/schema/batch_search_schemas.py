@@ -19,6 +19,7 @@ class BatchSearchModel(BaseModel):
     maxhit: int
     filter: str
     useid1: str
+    smode: str
 
 
 class BatchSearchResponse(BaseModel):

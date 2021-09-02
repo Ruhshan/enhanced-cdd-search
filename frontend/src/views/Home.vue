@@ -93,6 +93,12 @@ export default class Home extends Vue {
     private databases: Array<DatabaseInterface> = [
         { id: 0, name: 'CDD v3.19 - 58235 PSSMs', value: 'cdd' },
         { id: 1, name: 'NCBI_Curated  - 17937 PSSMs', value: 'cdd_ncbi' },
+        { id: 2, name: 'Pfam v33.1 - 18271 PSSMs', value: 'oasis_pfam' },
+        { id: 3, name: 'SMART v6.0 - 1011 PSSMs', value: 'oasis_smart' },
+        { id: 4, name: 'KOG v1.0 - 4825 PSSMs', value: 'oasis_kog' },
+        { id: 5, name: 'COG v1.0 - 4871 PSSMs', value: 'oasis_cog' },
+        { id: 6, name: 'PRK v6.9 - 11657 PSSMs', value: 'oasis_prk' },
+        { id: 7, name: 'TIGR v15.0 - 4488 PSSMs', value: 'oasis_tigr' },
     ]
     private headers: Array<Record<string, unknown>> = [
         { text: 'Accession', value: 'accession' },
