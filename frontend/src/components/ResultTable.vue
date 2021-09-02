@@ -89,7 +89,7 @@ export default class ResultTable extends Vue {
 
         this.filteredResults.forEach(entry => {
             const secquenceHeader = `>${entry.query}_${entry.accession}_${entry.interval}`
-            fasta += `${secquenceHeader}\n${entry.sequence}}\n\n`
+            fasta += `${secquenceHeader}\n${entry.sequence} \n\n`
         })
         fileDownload(fasta, 'search_id.txt')
     }
